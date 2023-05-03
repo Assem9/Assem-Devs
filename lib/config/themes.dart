@@ -5,20 +5,18 @@ import 'package:my_portfolio/constants/text_style.dart';
 import '../constants/my_colors.dart';
 
 ThemeData lightTheme = ThemeData(
-    scaffoldBackgroundColor: MyColors.darkWhite,
-    appBarTheme: const AppBarTheme(
-        systemOverlayStyle:SystemUiOverlayStyle(
-            statusBarColor: Colors.grey,
-            statusBarIconBrightness: Brightness.dark
-        ) ,
-        elevation: 0.0,
-        backgroundColor: MyColors.darkWhite,
-        iconTheme: IconThemeData(color: MyColors.orange)
-    ),
-    primarySwatch: Colors.blueGrey,
-    iconTheme: const IconThemeData(color: MyColors.orange),
-    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: MyColors.white),
-
+  primarySwatch: Colors.blueGrey,
+  iconTheme: const IconThemeData(color: Colors.white),
+  scaffoldBackgroundColor: MyColors.darkWhite,
+  appBarTheme: const AppBarTheme(
+      systemOverlayStyle:SystemUiOverlayStyle(
+          statusBarColor: Colors.grey,
+          statusBarIconBrightness: Brightness.dark
+      ) ,
+      elevation: 0.0,
+      backgroundColor: MyColors.darkWhite,
+      iconTheme: IconThemeData(color: MyColors.orange)
+  ),
   textTheme: TextTheme(
     displayMedium: displayMedium,
     displaySmall: displaySmall,
@@ -33,23 +31,21 @@ ThemeData lightTheme = ThemeData(
 
 
 ThemeData darkTheme = ThemeData(
-    primarySwatch: Colors.deepOrange,
-    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: MyColors.darkBlack),
-    iconTheme: const IconThemeData(color: MyColors.white),
-    scaffoldBackgroundColor: MyColors.darkBlack,
-    appBarTheme: const AppBarTheme(
-      // backwardsCompatibility: false, //to control status bar (Default =true)
-      systemOverlayStyle:SystemUiOverlayStyle(
+  primarySwatch: Colors.deepOrange,
+  iconTheme: const IconThemeData(color: Colors.white),
+  scaffoldBackgroundColor: MyColors.darkBlack,
+  appBarTheme: const AppBarTheme(
+    systemOverlayStyle:SystemUiOverlayStyle(
           statusBarColor: MyColors.darkBlack,
           statusBarIconBrightness: Brightness.dark
       ) ,
-      elevation: 0.0,
-      backgroundColor: MyColors.darkBlack,
-      iconTheme: IconThemeData(color: MyColors.white),
-    ),
-    textTheme: TextTheme(
+    elevation: 0.0,
+    backgroundColor: MyColors.darkBlack,
+    iconTheme: IconThemeData(color: MyColors.white),
+  ),
+  textTheme: TextTheme(
         displayMedium: displayMedium.copyWith(color: MyColors.white),
-        displaySmall: displaySmall.copyWith(color: MyColors.white),
+        displaySmall: displaySmall ,
         bodyLarge: bodyLarge.copyWith(color: MyColors.white) ,
         bodyMedium: bodyMedium.copyWith(color: MyColors.white),
         titleLarge: titleLarge,

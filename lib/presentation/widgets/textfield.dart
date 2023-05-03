@@ -21,13 +21,14 @@ class DefaultTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: MyColors.black1,
       ),
       child: TextFormField(
         maxLines: maxLines  ,
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: MyColors.purple) ,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: MyColors.white) ,
         controller: controller ,
         validator: (value){
           if(value!.isEmpty) {

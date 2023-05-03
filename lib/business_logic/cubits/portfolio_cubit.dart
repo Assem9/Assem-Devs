@@ -29,19 +29,30 @@ class PortfolioCubit extends Cubit<PortfolioStates> {
     }else{
       screenSize = ScreenSize.isMobile ;
     }
+    emit(ScreenSizeChanged());
     debugPrint(screenSize.toString());
   }
 
+  bool dataLoading = false ;
   late PersonalData personalData ;
   void getPersonalData(){
+    dataLoading = true ;
+    emit(DataLoading());
     portfolioDataRepo.getPersonalData().then((value){
       debugPrint('dataLoaded');
       personalData = value ;
+      dataLoading = false ;
         emit(PersonalDataLoaded());
       }).catchError((e){
         debugPrint('get user error $e') ;
         emit(PersonalDataLoadingError());
       });
     }
+
+  void sendMessage(String msg)async{
+    await portfolioDataRepo.createCustomerMessage(msg: msg).then((value) {
+      emit(CustomerSentMessage());
+    });
+  }
 
 }

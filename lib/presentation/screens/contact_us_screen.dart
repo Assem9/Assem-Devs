@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:my_portfolio/business_logic/cubits/portfolio_cubit.dart';
 import 'package:my_portfolio/business_logic/cubits/portfolio_states.dart';
 import 'package:my_portfolio/data/models/screen_size.dart';
 import 'package:my_portfolio/presentation/widgets/default_button.dart';
+import 'package:my_portfolio/presentation/widgets/show_toast.dart';
 import 'package:my_portfolio/presentation/widgets/textfield.dart';
 
 import '../../constants/my_colors.dart';
@@ -22,86 +24,137 @@ class ContactUsScreen extends StatelessWidget {
       backgroundColor: MyColors.dark,
       body: BlocBuilder<PortfolioCubit,PortfolioStates>(
           builder:(context,state){
-            return Center(
-              child: Container(
-                height: PortfolioCubit.get(context).screenSize == ScreenSize.isMobile
-                    ? 820 : MediaQuery.of(context).size.height ,
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                    vertical: 8.0,
-                    horizontal: PortfolioCubit.get(context).screenSize == ScreenSize.isMobile ? 12 : 100
-                ),
+            return !PortfolioCubit.get(context).dataLoading?
+            Container(
+              height: PortfolioCubit.get(context).screenSize == ScreenSize.isMobile
+                  ? 820 : MediaQuery.of(context).size.height ,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: PortfolioCubit.get(context).screenSize == ScreenSize.isDesktop ? 100 : 12
+              ),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _buildTextsColumn(context) ,
                       Flex(
                         direction: PortfolioCubit.get(context).screenSize == ScreenSize.isMobile
                             ? Axis.vertical
                             : Axis.horizontal,
                         mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        //crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Flexible(fit: FlexFit.loose, child: _buildContactsDataColumn(context)) ,
-                          const SizedBox(width: 50,),
                           Flexible(fit: FlexFit.loose,child: _buildTextInputForm(context)) ,
+                          const SizedBox(width: 50,),
+                          const SizedBox(height: 20,),
+                          Flexible(fit: FlexFit.loose, child: _buildContactsDataColumn(context)) ,
                         ],
                       ),
                     ],
                   ),
                 ),
-              ),
-            );
+              )
+                : const Center(child: CircularProgressIndicator(),);
           }
           ),
     );
   }
-    Widget _buildTextsColumn(context){
-      return SizedBox(
-        // height: MediaQuery.of(context).size.height * 0.2,
-        child: Column(
-          children: [
-            Text(
-              'Assem Devs',
-              style: Theme.of(context).textTheme.titleLarge,
+  Widget _buildTextsColumn(context){
+      return Column(
+        children: [
+          const SizedBox(height: 30,),
+          DefaultTextStyle(
+            style:Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 50) ,
+            child: AnimatedTextKit(
+                repeatForever: true,
+                //pause: const Duration(seconds: 5),
+                animatedTexts: [
+                  WavyAnimatedText('Assem Devs',),
+                  /*ColorizeAnimatedText(
+                      'Assem Devs',
+                      textStyle: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 50)  ,
+                      colors: [
+                        MyColors.purple,
+                        Colors.white,
+                        MyColors.purple4,
+                        MyColors.darkBlue
+                      ]
+                  ),*/
+                ]
             ),
-            const SizedBox(height: 20,),
-            Text(
-              'Contact With Me:',
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
-            const SizedBox(height: 20,),
-          ],
-        ),
+          ),
+          const SizedBox(height: 20,),
+          Text(
+            'Contact With Me:',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
+          const SizedBox(height: 20,),
+        ],
       );
 
     }
 
+  final formKey = GlobalKey<FormState>();
   Widget _buildTextInputForm(context){
     var cubit =PortfolioCubit.get(context) ;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(
-         // height: MediaQuery.of(context).size.height/2,
-          width: cubit.screenSize == ScreenSize.isMobile
-              ? MediaQuery.of(context).size.width - 50
-              : MediaQuery.of(context).size.width/2,
-          child: DefaultTextField(
-            controller: customerMessageController,
-            hint: '     Write Your Request Here',
-            type: TextInputType.text,
-            maxLines: 5,
-            border: InputBorder.none,
+    //send_letter.svg
+    return BlocListener<PortfolioCubit,PortfolioStates>(
+      listener: (BuildContext context, state) {
+        if(state is CustomerSentMessage){
+          showToast(message: 'your message has been sent successfully');
+          customerMessageController.text= '';
+        }
+      },
+      child: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: [
+          Align(
+            alignment: AlignmentDirectional.topEnd,
+            child: SvgPicture.asset(
+              'assets/images/send_letter.svg',
+            ),
           ),
-        ),
-        DefaultButton(
-            title: 'SEND',
-            textColor: Colors.white,
-            width: MediaQuery.of(context).size.width/2,
-            onTap: (){}
-        ),
-      ],
+          Align(
+            alignment: AlignmentDirectional.bottomStart,
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+
+                  SizedBox(
+                    width: cubit.screenSize == ScreenSize.isMobile
+                        ? MediaQuery.of(context).size.width - 50
+                        : MediaQuery.of(context).size.width/2,
+                    child: DefaultTextField(
+                      controller: customerMessageController,
+                      hint: '   Write Your Request Here',
+                      type: TextInputType.text,
+                      maxLines: 5,
+                      border: InputBorder.none,
+                    ),
+                  ),
+                  DefaultButton(
+                      title: 'SEND',
+                      textColor: Colors.white,
+                      width: MediaQuery.of(context).size.width/2,
+                      onTap: (){
+                        if(formKey.currentState!.validate()){
+                          cubit.sendMessage(customerMessageController.text) ;
+                        }
+                      }
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 20,
+            left: 20,
+            //alignment: AlignmentDirectional.topCenter,
+            child: _buildTextsColumn(context),
+          )
+        ],
+      ),
     );
   }
 
@@ -121,6 +174,7 @@ class ContactUsScreen extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(height: 30,),
             _buildSocialDataField(
                 context,
                 icon: Icons.facebook,
@@ -175,6 +229,7 @@ class ContactUsScreen extends StatelessWidget {
           IconButton(
             onPressed:(){
               Clipboard.setData(ClipboardData(text: title));
+              showToast(message: 'copied');
             },
             icon: const Icon(
               Icons.copy,

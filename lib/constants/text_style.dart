@@ -5,17 +5,17 @@ import 'my_colors.dart';
 TextStyle displayMedium = GoogleFonts.montserrat(
   textStyle: const TextStyle(
     fontSize: 30,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w900,
     color: Colors.white,
   ),
   //Theme.of(context).textTheme.displaySmall,
 );
 
-TextStyle displaySmall = GoogleFonts.aclonica(
+TextStyle displaySmall = GoogleFonts.montserrat(
     textStyle: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-        color: Colors.black38,
+        fontSize: 25,
+        fontWeight: FontWeight.bold,
+        color: MyColors.purple,
     )
 );
 
@@ -26,11 +26,13 @@ TextStyle titleLarge = GoogleFonts.aclonica(
     )
 ) ;
 
-TextStyle titleMedium = GoogleFonts.aBeeZee(textStyle: const TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.bold,
-    color: MyColors.white,
-) );
+TextStyle titleMedium = GoogleFonts.openSans(
+    textStyle: const TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w900,
+      color: MyColors.purple,
+    )
+);
 
 TextStyle bodyLarge = GoogleFonts.nunito(
   textStyle: const TextStyle(

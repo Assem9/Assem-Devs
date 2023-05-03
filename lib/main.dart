@@ -1,15 +1,17 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_portfolio/business_logic/cubits/portfolio_cubit.dart';
-import 'package:my_portfolio/business_logic/cubits/portfolio_states.dart';
 import 'package:my_portfolio/config/themes.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'business_logic/bloc_observer.dart';
 import 'config/app_router.dart';
 
+//flutter run --web-renderer html
+
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
+  setPathUrlStrategy();
   Bloc.observer = MyBlocObserver();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
@@ -19,12 +21,11 @@ void main()async{
         projectId: "assem-devs"
     )
   );
-  runApp( MyApp(appRouter: AppRouter(),));
+  runApp( const MyApp( ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.appRouter});
-  final AppRouter appRouter;
+  const MyApp({super.key });
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +34,14 @@ class MyApp extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context,BoxConstraints constraints) {
           PortfolioCubit.get(context).screenState(constraints);
-          return BlocBuilder<PortfolioCubit, PortfolioStates>(
-            builder: (context,state) {
-              return MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  title: 'Assem Devs',
-                  theme: lightTheme,
-                  darkTheme: darkTheme,
-                  themeMode: PortfolioCubit.get(context).isDark? ThemeMode.dark : ThemeMode.light,
-                  onGenerateRoute: appRouter.generateRoute,
-                  //home: LayoutScreen()
-              );
-            }
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Assem Devs',
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: PortfolioCubit.get(context).isDark? ThemeMode.dark : ThemeMode.light,
+            onGenerateRoute: AppRouter.generateRouteWithTransition,
+            //home: LayoutScreen()
           );
         }
       ),

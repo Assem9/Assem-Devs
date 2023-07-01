@@ -16,4 +16,5 @@ class AppScreen{
       'description': description,
     };
   }
+
 }

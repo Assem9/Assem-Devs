@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_portfolio/business_logic/cubits/portfolio_cubit.dart';
 import 'package:my_portfolio/business_logic/cubits/portfolio_states.dart';
 import 'package:my_portfolio/data/models/screen_size.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../constants/my_colors.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
@@ -140,27 +141,33 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildResumeButton(context){
-    return Container(
-      alignment: AlignmentDirectional.center,
-      height: 35,
-      width: 130,
-      decoration: BoxDecoration(
-          color: MyColors.purple,
-          borderRadius: BorderRadius.circular(10)
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'RESUME ',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          Icon(
-            Icons.download_outlined,
-            color: PortfolioCubit.get(context).isDark? Colors.white : Colors.black,
-            size: 17,
-          )
-        ],
+    return InkWell(
+      onTap: ()async{
+        var url = Uri.parse(PortfolioCubit.get(context).personalData.resume);
+        await launchUrl(url,mode: LaunchMode.externalApplication);
+      },
+      child: Container(
+        alignment: AlignmentDirectional.center,
+        height: 35,
+        width: 130,
+        decoration: BoxDecoration(
+            color: MyColors.purple,
+            borderRadius: BorderRadius.circular(10)
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'RESUME ',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            Icon(
+              Icons.download_outlined,
+              color: PortfolioCubit.get(context).isDark? Colors.white : Colors.black,
+              size: 17,
+            )
+          ],
+        ),
       ),
     );
   }

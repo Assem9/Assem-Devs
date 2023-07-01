@@ -5,10 +5,11 @@ import 'package:my_portfolio/business_logic/cubits/portfolio_cubit.dart';
 import 'package:my_portfolio/business_logic/cubits/projects_cubit/projects_cubit.dart';
 import 'package:my_portfolio/business_logic/cubits/projects_cubit/projects_states.dart';
 import 'package:my_portfolio/constants/my_colors.dart';
-import 'package:my_portfolio/constants/strings.dart';
 import 'package:my_portfolio/data/models/screen_size.dart';
 import 'package:my_portfolio/presentation/widgets/my_divider.dart';
 import 'package:my_portfolio/presentation/widgets/show_toast.dart';
+import 'package:my_portfolio/presentation/widgets/snackbar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../data/models/Project.dart';
 import '../widgets/listView_with_side_buttons.dart';
 
@@ -30,7 +31,7 @@ class ProjectsScreen extends StatelessWidget {
               children: [
                 const MyDriver(),
                 Container(
-                  color: MyColors.darkBlue,
+                  color: MyColors.purple,
                   padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 2),
                   child: Text(
                     'MY PROJECTS',
@@ -77,7 +78,7 @@ class ProjectsScreen extends StatelessWidget {
           ? MediaQuery.of(context).size.width * 2/3
           : MediaQuery.of(context).size.width - 50,
       decoration: BoxDecoration(
-        border: Border.all(width: 5,color: MyColors.darkBlue),
+        border: Border.all(width: 5,color: MyColors.purple2),
           borderRadius: BorderRadius.circular(20)
       ),
       child: Row(
@@ -113,7 +114,7 @@ class ProjectsScreen extends StatelessWidget {
         ).createShader(bounds);
       },
       child: Container(
-        color: MyColors.darkBlue,
+        color: MyColors.purple,
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,23 +141,49 @@ class ProjectsScreen extends StatelessWidget {
     return Container(
       width: 100,
       padding: const EdgeInsets.all(10),
-      color: MyColors.darkBlue,
+      color: MyColors.purple3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           InkWell(
-            onTap: ()=> showToast(message: 'Will Be Available Soon'),
+            onTap: ()async{
+              if(project.gitHubLink.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(mySnack(context,'GitHub Link For This Project Not Provided Yet'));
+              }else{
+
+                //url
+              }
+            },
             child: const Icon(MdiIcons.github,size: 50,),
           ),
 
          // const SizedBox(height: 10,),
           InkWell(
-            onTap: ()=> showToast(message: 'Will Be Available Soon'),
+            onTap: ()async{
+              if(project.playStoreLink.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(
+                    mySnack(
+                        context,
+                        'App Will Be Available In The Store Soon'
+                    )
+                );
+              }else{
+                var url = Uri.parse(project.playStoreLink);
+                await launchUrl(url,mode: LaunchMode.externalApplication);
+
+              }
+            },
             child: const Icon(MdiIcons.googlePlay,size: 50,),
           ),
           //const SizedBox(height: 10,),
           InkWell(
-            onTap: ()=> showToast(message: 'Will Be Available Soon'),
+            onTap: (){
+              if(project.apkLink.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(mySnack(context,'Sorry No Apk Link for this App yet'));
+              }else{
+                //url
+              }
+            },
             child: const Icon(MdiIcons.download,size: 50,),
           ),
         ],
@@ -167,26 +194,25 @@ class ProjectsScreen extends StatelessWidget {
   Widget _buildProjectMainImage(url){
     return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20)
-          ),
-          child: ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return  const LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      MyColors.purple3 ,
-                      MyColors.white,
-                      MyColors.purple,
-                    ]
-                ).createShader(bounds);
-              },
-              child: Container(
-                color: MyColors.darkBlue,
-              )
-          ),
+        ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return  const LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    MyColors.purple3 ,
+                    MyColors.white,
+                    MyColors.purple,
+                  ]
+              ).createShader(bounds);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: MyColors.purple,
+                  borderRadius: BorderRadius.circular(20)
+              ),
+
+            )
         ),
         Container(
           decoration: BoxDecoration(

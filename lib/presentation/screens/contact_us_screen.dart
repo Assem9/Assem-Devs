@@ -12,6 +12,7 @@ import 'package:my_portfolio/presentation/widgets/show_toast.dart';
 import 'package:my_portfolio/presentation/widgets/textfield.dart';
 
 import '../../constants/my_colors.dart';
+import '../widgets/snackbar.dart';
 
 class ContactUsScreen extends StatelessWidget {
     ContactUsScreen({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class ContactUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.dark,
+      backgroundColor: MyColors.black2,
       body: BlocBuilder<PortfolioCubit,PortfolioStates>(
           builder:(context,state){
             return !PortfolioCubit.get(context).dataLoading?
@@ -62,26 +63,20 @@ class ContactUsScreen extends StatelessWidget {
       return Column(
         children: [
           const SizedBox(height: 30,),
-          DefaultTextStyle(
-            style:Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 50) ,
-            child: AnimatedTextKit(
-                repeatForever: true,
-                //pause: const Duration(seconds: 5),
-                animatedTexts: [
-                  WavyAnimatedText('Assem Devs',),
-                  /*ColorizeAnimatedText(
-                      'Assem Devs',
-                      textStyle: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 50)  ,
-                      colors: [
-                        MyColors.purple,
-                        Colors.white,
-                        MyColors.purple4,
-                        MyColors.darkBlue
-                      ]
-                  ),*/
-                ]
+          Container(
+            color: MyColors.purple,
+            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 2),
+            child: DefaultTextStyle(
+              style:Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 50,color: MyColors.white) ,
+              child: AnimatedTextKit(
+                  repeatForever: true,
+                  animatedTexts: [
+                    WavyAnimatedText(PortfolioCubit.get(context).personalData.portfolioTitle,),
+                  ]
+              ),
             ),
           ),
+
           const SizedBox(height: 20,),
           Text(
             'Contact With Me:',
@@ -100,7 +95,9 @@ class ContactUsScreen extends StatelessWidget {
     return BlocListener<PortfolioCubit,PortfolioStates>(
       listener: (BuildContext context, state) {
         if(state is CustomerSentMessage){
-          showToast(message: 'your message has been sent successfully');
+          ScaffoldMessenger.of(context).showSnackBar(
+              mySnack(context, 'your message has been sent successfully')
+          );
           customerMessageController.text= '';
         }
       },
@@ -163,6 +160,7 @@ class ContactUsScreen extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.topEnd,
       children: [
+        /*
         Align(
           alignment: AlignmentDirectional.bottomCenter,
           child: SvgPicture.asset(
@@ -170,7 +168,7 @@ class ContactUsScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width /2 ,
           ),
-        ),
+        ),*/
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -229,7 +227,9 @@ class ContactUsScreen extends StatelessWidget {
           IconButton(
             onPressed:(){
               Clipboard.setData(ClipboardData(text: title));
-              showToast(message: 'copied');
+              ScaffoldMessenger.of(context).showSnackBar(
+                  mySnack(context, 'Copied')
+              );
             },
             icon: const Icon(
               Icons.copy,

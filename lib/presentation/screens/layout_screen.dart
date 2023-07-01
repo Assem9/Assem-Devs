@@ -34,7 +34,9 @@ class LayoutScreen extends StatelessWidget {
           child: !PortfolioCubit.get(context).dataLoading ?
           Scaffold(
             appBar: AppBar(
-              title: cubit.screenSize == ScreenSize.isDesktop ? const Text('ASSEM DEVS') : null,
+              title: cubit.screenSize == ScreenSize.isDesktop
+                  ? Text(PortfolioCubit.get(context).personalData.portfolioTitle)
+                  : null,
               actions:
               cubit.screenSize != ScreenSize.isMobile ? [
                 _buildAppBarButton(title:'HOME', index: 0,context:context),
@@ -75,25 +77,27 @@ class LayoutScreen extends StatelessWidget {
     required int index,
     required context
   }){
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 14.0,vertical: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: TextButton(
-          onPressed: ()async{
-            await _itemScrollController.scrollTo(
-                index: index,
-                duration: const Duration(milliseconds: 500)
-            ).then((value){
-              if(PortfolioCubit.get(context).screenSize == ScreenSize.isMobile) {
-                Navigator.pop(context);
-              }//to close the drawer
-            });
-          },
-          child: Text(
-            title,
-            overflow: TextOverflow.clip,
-            style:  Theme.of(context).textTheme.bodyMedium,
-          )
+    return Flexible(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 14.0,vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        child: TextButton(
+            onPressed: ()async{
+              await _itemScrollController.scrollTo(
+                  index: index,
+                  duration: const Duration(milliseconds: 500)
+              ).then((value){
+                if(PortfolioCubit.get(context).screenSize == ScreenSize.isMobile) {
+                  Navigator.pop(context);
+                }//to close the drawer
+              });
+            },
+            child: Text(
+              title,
+              overflow: TextOverflow.clip,
+              style:  Theme.of(context).textTheme.bodyMedium,
+            )
+        ),
       ),
     );
   }

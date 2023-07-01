@@ -7,8 +7,9 @@ class PersonalData {
   late String whatsApp ;
   late String instagram ;
   late String aboutMeParagraph ;
+  late String resume ;
   List<Job> jobs = [];
-
+  //List<ContactMethod> contactMethods = [];
 
   PersonalData({
     required this.portfolioTitle,
@@ -24,6 +25,7 @@ class PersonalData {
     instagram = json['instagram'];
     gmail = json['gmail'];
     aboutMeParagraph = json['about'];
+    resume = json['resume'];
     json['jobs'].forEach((element){
       jobs.add(Job.fromJson(element));
     });
@@ -37,6 +39,7 @@ class PersonalData {
       'instagram': instagram,
       'facebook': facebook,
       'about': aboutMeParagraph,
+      'resume':resume,
       'jobs': jobs.map((x) => x.toMap()).toList(),
     };
   }

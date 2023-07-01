@@ -9,11 +9,12 @@ class ListViewWithSideButtons extends StatelessWidget {
   const ListViewWithSideButtons({
     Key? key, required this.scrollController,
     required this.listLength,
-    required this.builder
+    required this.builder, this.sideWidth
   }) : super(key: key);
 
   final ScrollController scrollController ;
   final int listLength ;
+  final double? sideWidth ;
   final Widget Function(BuildContext, int) builder;
 
   @override
@@ -22,8 +23,8 @@ class ListViewWithSideButtons extends StatelessWidget {
       children: [
         Row(
           children: [
-            PortfolioCubit.get(context).screenSize != ScreenSize.isMobile ?
-            const SizedBox(width: 30,): Container(),
+            PortfolioCubit.get(context).screenSize != ScreenSize.isMobile || sideWidth != null?
+            SizedBox(width: sideWidth?? 30,): Container(),
             Expanded(
               child: ListView.separated(
                 controller: scrollController,
@@ -33,8 +34,8 @@ class ListViewWithSideButtons extends StatelessWidget {
                 itemBuilder: (context, index)=> builder(context, index)
               ),
             ),
-            PortfolioCubit.get(context).screenSize != ScreenSize.isMobile ?
-            const SizedBox(width: 30,): Container(),
+            PortfolioCubit.get(context).screenSize != ScreenSize.isMobile || sideWidth != null?
+            SizedBox(width: sideWidth??30,): Container(),
 
           ],
         ),

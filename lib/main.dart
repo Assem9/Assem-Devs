@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: PortfolioCubit.get(context).isDark? ThemeMode.dark : ThemeMode.light,
-            onGenerateRoute: AppRouter.generateRouteWithTransition,
+            onGenerateRoute: AppRouter().generateRouteWithTransition,
             //home: LayoutScreen()
           );
         }

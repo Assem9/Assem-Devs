@@ -19,7 +19,7 @@ To get started with this project, you will need to follow these steps:
    
      - Copy the Firebase configuration data for your app, including the appId, appKey, messagingSenderId and projectId.
    
-     -Create a new file called firebase_initialization.dart in the lib/utils directory with the following content:
+3. Create a new file called firebase_initialization.dart in the lib/utils directory with the following content:
 ``` 
 class FirebaseInitialization {
   static const String appId = 'YOUR_APP_ID';
@@ -30,9 +30,9 @@ class FirebaseInitialization {
 
 ```
 
-3. Replace the `appId`, `appKey`, `messagingSenderId` and `projectId` values with the ones you copied from your project
+4. Replace the `appId`, `appKey`, `messagingSenderId` and `projectId` values with the ones you copied from your project
 
-4. Initialize the Firebase app data in your main() function as follows:
+5. Initialize the Firebase app data in your main() function as follows:
 
 ```
 import 'package:firebase_core/firebase_core.dart';
@@ -51,6 +51,7 @@ void main() async {
 }
 ```
 
-5.Run flutter pub get to install the required packages.
+6.Run flutter pub get to install the required packages.
 
-Run flutter run to start the app and launch the website in your browser.
+7. Run flutter run to start the app and launch the website in your browser.
+

@@ -51,7 +51,17 @@ void main() async {
 }
 ```
 
-6.Run flutter pub get to install the required packages.
+6. Run flutter pub get to install the required packages.
 
 7. Run flutter run to start the app and launch the website in your browser.
 
+## Screenshots
+![Home_screen_gif 1](screenshots/port_home.JPG)
+
+![Home_screen_gif 1](screenshots/port_about.JPG)
+
+![Home_screen_gif 1](screenshots/port_projects.JPG)
+
+![Screenshot 2](screenshots/friends.gif)
+
+![Home_screen_gif 1](screenshots/port_project details.JPG) 

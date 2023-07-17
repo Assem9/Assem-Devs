@@ -9,11 +9,16 @@ To get started with this project, you will need to follow these steps:
 
 2. Setup a Firebase project for web in your Firebase console account by following these steps:
 
-     -Go to the Firebase Console: https://console.firebase.google.com/
-     -Create a new project, or select an existing one.
-     -Click on the "Add App" button and select "Web" as the platform.
-     -Register the app by providing an app nickname and click on "Register".
-     -Copy the Firebase configuration data for your app, including the appId, appKey, messagingSenderId and projectId.
+     - Go to the Firebase Console: https://console.firebase.google.com/
+   
+     - Create a new project, or select an existing one.
+   
+     - Click on the "Add App" button and select "Web" as the platform.
+   
+     - Register the app by providing an app nickname and click on "Register".
+   
+     - Copy the Firebase configuration data for your app, including the appId, appKey, messagingSenderId and projectId.
+   
      -Create a new file called firebase_initialization.dart in the lib/utils directory with the following content:
 ``` 
 class FirebaseInitialization {
